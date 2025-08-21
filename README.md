@@ -1,207 +1,169 @@
 ---
-base_model: openai/gpt-oss-20b
-library_name: peft
-pipeline_tag: text-generation
+
+base\_model: openai/gpt-oss-20b 
+library\_name: peft 
+pipeline\_tag: text-generation 
 tags:
-- base_model:adapter:openai/gpt-oss-20b
+- base\_model\:adapter\:openai/gpt-oss-20b
 - lora
 - transformers
+
 ---
 
-# Model Card for Model ID
-
-<!-- Provide a quick summary of what the model is/does. -->
-
-
+# Model Card for Medical GPT-OSS-20B LoRA Adapter
 
 ## Model Details
 
 ### Model Description
 
-<!-- Provide a longer summary of what this model is. -->
+This model is a LoRA adapter fine-tuned on **openai/gpt-oss-20b** using the PEFT library. It is optimized for **medical domain tasks** such as question answering, summarization, and knowledge retrieval in healthcare contexts. The adapter modifies the base model with efficient fine-tuning techniques while retaining the general-purpose reasoning capabilities of the underlying 20B parameter model.
 
+- **Developed by:** Arunima Surendran
+- **Funded by:** E2E Cloud
+- **Shared by:** Arunima Surendran
+- **Model type:** Large Language Model with LoRA adapter (20B base)
+- **Language(s):** English
+- **License:** Apache 2.0
+- **Finetuned from model:** openai/gpt-oss-20b
+- **Finetuned using:** NVIDIA 2xH200 for 12+ hours on E2E Cloud TIR Instance
 
+### Model Sources
 
-- **Developed by:** [More Information Needed]
-- **Funded by [optional]:** [More Information Needed]
-- **Shared by [optional]:** [More Information Needed]
-- **Model type:** [More Information Needed]
-- **Language(s) (NLP):** [More Information Needed]
-- **License:** [More Information Needed]
-- **Finetuned from model [optional]:** [More Information Needed]
-
-### Model Sources [optional]
-
-<!-- Provide the basic links for the model. -->
-
-- **Repository:** [More Information Needed]
+- **Repository:** [https://github.com/arunimakanavu/gpt-oss-medical](https://github.com/arunimakanavu/gpt-oss-medical)
 - **Paper [optional]:** [More Information Needed]
 - **Demo [optional]:** [More Information Needed]
 
-## Uses
+## Requirements
 
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
+```text
+torch>=2.0.0
+transformers @ git+https://github.com/huggingface/transformers.git
+datasets>=2.12.0
+peft>=0.10.0
+accelerate>=0.22.0
+bitsandbytes>=0.41.0
+sentencepiece>=0.1.99
+```
+
+## Uses
 
 ### Direct Use
 
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
+- Medical Q&A
+- Clinical text summarization
+- Educational content generation in healthcare
 
-[More Information Needed]
+### Downstream Use
 
-### Downstream Use [optional]
-
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
-
-[More Information Needed]
+- Integrating into RAG pipelines with domain-specific medical knowledge bases
+- Deployment in medical chatbots (for informational purposes only)
 
 ### Out-of-Scope Use
 
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
-
-[More Information Needed]
+- Direct clinical decision-making or diagnostic tools without human oversight
+- High-stakes medical applications without proper validation
 
 ## Bias, Risks, and Limitations
 
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
+The model may generate:
 
-[More Information Needed]
+- Inaccurate or hallucinated medical information
+- Biased outputs due to limitations in training data
+- Text not suitable for unsupervised clinical decision-making
 
 ### Recommendations
 
-<!-- This section is meant to convey recommendations with respect to the bias, risk, and technical limitations. -->
+Users should:
 
-Users (both direct and downstream) should be made aware of the risks, biases and limitations of the model. More information needed for further recommendations.
+- Treat outputs as **assistive**, not authoritative
+- Always cross-verify with trusted medical sources
+- Avoid using the model for patient-facing diagnosis without professional review
 
 ## How to Get Started with the Model
 
-Use the code below to get started with the model.
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer, PeftModel
 
-[More Information Needed]
+base_model = "openai/gpt-oss-20b"
+adapter_path = "./medical_gpt_oss_20b_final"
+
+model = AutoModelForCausalLM.from_pretrained(base_model, device_map="auto", torch_dtype="auto")
+model = PeftModel.from_pretrained(model, adapter_path)
+
+tokenizer = AutoTokenizer.from_pretrained(base_model)
+```
 
 ## Training Details
 
 ### Training Data
 
-<!-- This should link to a Dataset Card, perhaps with a short stub of information on what the training data is all about as well as documentation related to data pre-processing or additional filtering. -->
-
-[More Information Needed]
+- Domain-specific medical text corpus
+- Filtered for quality and relevance
 
 ### Training Procedure
 
-<!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
-
-#### Preprocessing [optional]
-
-[More Information Needed]
-
+- Fine-tuned using **LoRA** on top of GPT-OSS-20B
+- Mixed precision training (`bf16`)
 
 #### Training Hyperparameters
 
-- **Training regime:** [More Information Needed] <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
-
-#### Speeds, Sizes, Times [optional]
-
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
-
-[More Information Needed]
+- **Training regime:** bf16 mixed precision
+- **Compute:** NVIDIA 2xH200 GPUs
+- **Training time:** 12+ hours
 
 ## Evaluation
 
-<!-- This section describes the evaluation protocols and provides the results. -->
-
 ### Testing Data, Factors & Metrics
 
-#### Testing Data
-
-<!-- This should link to a Dataset Card if possible. -->
-
-[More Information Needed]
-
-#### Factors
-
-<!-- These are the things the evaluation is disaggregating by, e.g., subpopulations or domains. -->
-
-[More Information Needed]
-
-#### Metrics
-
-<!-- These are the evaluation metrics being used, ideally with a description of why. -->
-
-[More Information Needed]
+- Domain: medical Q&A and summarization
+- Metrics: Perplexity, BLEU/ROUGE for summarization, accuracy for Q&A
 
 ### Results
 
-[More Information Needed]
-
-#### Summary
-
-
-
-## Model Examination [optional]
-
-<!-- Relevant interpretability work for the model goes here -->
-
-[More Information Needed]
+- [Add evaluation metrics and benchmarks]
 
 ## Environmental Impact
 
-<!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
-
-Carbon emissions can be estimated using the [Machine Learning Impact calculator](https://mlco2.github.io/impact#compute) presented in [Lacoste et al. (2019)](https://arxiv.org/abs/1910.09700).
-
-- **Hardware Type:** [More Information Needed]
-- **Hours used:** [More Information Needed]
-- **Cloud Provider:** [More Information Needed]
+- **Hardware Type:** NVIDIA 2xH200 (E2E TIR platform)
+- **Hours used:** 12+
+- **Cloud Provider:** E2E Networks
 - **Compute Region:** [More Information Needed]
 - **Carbon Emitted:** [More Information Needed]
 
-## Technical Specifications [optional]
+## Technical Specifications
 
 ### Model Architecture and Objective
 
-[More Information Needed]
+- Base: GPT-OSS-20B (20 billion parameters)
+- Adapter: LoRA (low-rank fine-tuning)
 
 ### Compute Infrastructure
 
-[More Information Needed]
+- **Hardware:** NVIDIA 2xH200 (E2E TIR)
+- **Software:** PyTorch, Transformers, PEFT
 
-#### Hardware
-
-[More Information Needed]
-
-#### Software
-
-[More Information Needed]
-
-## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
+## Citation
 
 **BibTeX:**
 
-[More Information Needed]
+```bibtex
+@misc{gptoss20b-medical,
+  title = {Medical GPT-OSS-20B LoRA Adapter},
+  author = {Arunima Surendran},
+  year = {2025},
+  url = {https://github.com/arunimakanavu/gpt-oss-medical}
+}
+```
 
-**APA:**
+## Model Card Authors
 
-[More Information Needed]
-
-## Glossary [optional]
-
-<!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
-
-[More Information Needed]
-
-## More Information [optional]
-
-[More Information Needed]
-
-## Model Card Authors [optional]
-
-[More Information Needed]
+- Arunima Surendran
 
 ## Model Card Contact
 
-[More Information Needed]
+- [Your Contact Information]
+
 ### Framework versions
 
 - PEFT 0.17.0
+
