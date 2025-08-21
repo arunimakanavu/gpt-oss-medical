@@ -1,10 +1,10 @@
 ---
 
-base\_model: openai/gpt-oss-20b 
-library\_name: peft 
-pipeline\_tag: text-generation 
+base_model: openai/gpt-oss-20b 
+library_name: peft 
+pipeline_tag: text-generation 
 tags:
-- base\_model\:adapter\:openai/gpt-oss-20b
+- base_model:adapter:openai/gpt-oss-20b
 - lora
 - transformers
 
