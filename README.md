@@ -85,7 +85,7 @@ Users should:
 from transformers import AutoModelForCausalLM, AutoTokenizer, PeftModel
 
 base_model = "openai/gpt-oss-20b"
-adapter_path = "./medical_gpt_oss_20b_final"
+adapter_path = "./medical_gpt_oss_medical"
 
 model = AutoModelForCausalLM.from_pretrained(base_model, device_map="auto", torch_dtype="auto")
 model = PeftModel.from_pretrained(model, adapter_path)
