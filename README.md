@@ -30,8 +30,6 @@ This model is a LoRA adapter fine-tuned on **openai/gpt-oss-20b** using the PEFT
 ### Model Sources
 
 - **Repository:** [https://github.com/arunimakanavu/gpt-oss-medical](https://github.com/arunimakanavu/gpt-oss-medical)
-- **Paper [optional]:** [More Information Needed]
-- **Demo [optional]:** [More Information Needed]
 
 ## Requirements
 
@@ -120,15 +118,13 @@ tokenizer = AutoTokenizer.from_pretrained(base_model)
 
 ### Results
 
-- [Add evaluation metrics and benchmarks]
+- BERTScore = 0.834
 
 ## Environmental Impact
 
 - **Hardware Type:** NVIDIA 2xH200 (E2E TIR platform)
 - **Hours used:** 12+
 - **Cloud Provider:** E2E Networks
-- **Compute Region:** [More Information Needed]
-- **Carbon Emitted:** [More Information Needed]
 
 ## Technical Specifications
 
@@ -155,13 +151,9 @@ tokenizer = AutoTokenizer.from_pretrained(base_model)
 }
 ```
 
-## Model Card Authors
+## Authors
 
 - Arunima Surendran
-
-## Model Card Contact
-
-- [Your Contact Information]
 
 ### Framework versions
 
