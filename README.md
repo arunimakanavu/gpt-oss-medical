@@ -137,7 +137,7 @@ tokenizer = AutoTokenizer.from_pretrained(base_model)
 
 ### Compute Infrastructure
 
-- **Hardware:** NVIDIA 2xH200 (E2E TIR)
+- **Hardware:** NVIDIA 2xH100 
 - **Software:** PyTorch, Transformers, PEFT
 
 ## Citation
