@@ -119,6 +119,8 @@ tokenizer = AutoTokenizer.from_pretrained(base_model)
 ### Results
 
 - BERTScore = 0.834
+- [Evaluation Documentation](https://github.com/arunimakanavu/gpt-oss-medical/blob/main/eval_doc.md)
+- [HiggingFace Model Card](https://huggingface.co/arunimas1107/gpt-oss-medical)
 
 ## Environmental Impact
 
